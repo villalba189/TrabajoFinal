@@ -2,7 +2,7 @@ package trabajoFinal;
 
 import java.util.*;
 
-public class Cliente extends Usuario implements Administrar{
+public class Cliente extends Usuario {
 	private String correo;
 	private TreeSet<Nota> notas;
 	private TreeSet<Factura> facturas;
@@ -35,21 +35,7 @@ public class Cliente extends Usuario implements Administrar{
 	public void setCorreo(String correo) {
 		this.correo = correo;
 	}
-	@Override
-	public void añadir() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void modificar() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void eliminar() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	
 	
 	

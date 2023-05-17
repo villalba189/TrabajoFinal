@@ -2,7 +2,7 @@ package trabajoFinal;
 
 import java.util.*;
 
-public class Nota implements Administrar{
+public class Nota {
 	private int id_nota;
 	private String titulo;
 	private Date fecha;
@@ -84,22 +84,6 @@ public class Nota implements Administrar{
 				+ "]";
 	}
 
-	@Override
-	public void añadir() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void modificar() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void eliminar() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }

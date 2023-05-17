@@ -2,7 +2,7 @@ package trabajoFinal;
 
 import java.util.*;
 
-public class Empleado extends Usuario implements Administrar {
+public class Empleado extends Usuario  {
 	private Boolean is_admin;
 	private int num_empleado;
 	
@@ -77,23 +77,6 @@ public class Empleado extends Usuario implements Administrar {
 				+ "]";
 	}
 
-	@Override
-	public void añadir() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void modificar() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void eliminar() {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	
 	
