@@ -35,8 +35,31 @@ public class Cliente extends Usuario {
 	public void setCorreo(String correo) {
 		this.correo = correo;
 	}
-	
-	
-	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(correo, facturas, notas);
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cliente other = (Cliente) obj;
+		return Objects.equals(correo, other.correo) && Objects.equals(facturas, other.facturas)
+				&& Objects.equals(notas, other.notas);
+	}
+	@Override
+	public String toString() {
+		return "Cliente [correo=" + correo + ", notas=" + notas + ", facturas=" + facturas + ", toString()="
+				+ super.toString() + "]";
+	}
 	
 }
+
+

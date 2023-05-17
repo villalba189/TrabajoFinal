@@ -31,20 +31,21 @@ CREATE TABLE `TrabajoFinal_TPV`.`Cliente` (
 	ON UPDATE CASCADE);
 
 CREATE TABLE `TrabajoFinal_TPV`.`Factura` (
-  `ID_Compra` INT NOT NULL AUTO_INCREMENT,
+  `ID_Factura` INT NOT NULL AUTO_INCREMENT,
   `Fecha` DATE NOT NULL,
   `Pagado` boolean default false,
-  `Total` FLOAT NOT NULL,
+  `Total` Double NOT NULL,
   `ID_Cliente` INT NOT NULL,
-  PRIMARY KEY (`ID_Compra`),
-  CONSTRAINT `fk_compra_cliente` FOREIGN KEY (`ID_Cliente`) REFERENCES `TrabajoFinal_TPV`.`Cliente` (`ID_Cliente`)
+  PRIMARY KEY (`ID_Factura`),
+  CONSTRAINT `fk_factura_cliente` FOREIGN KEY (`ID_Cliente`) REFERENCES `TrabajoFinal_TPV`.`Cliente` (`ID_Cliente`)
 	ON DELETE CASCADE
 	ON UPDATE CASCADE);
 
 CREATE TABLE `TrabajoFinal_TPV`.`Producto` (
   `ID_Producto` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(30) NOT NULL,
-  `Precio` FLOAT NOT NULL,
+  `Precio` Double NOT NULL,
+  `IVA` Double NOT NULL,
   PRIMARY KEY (`ID_Producto`));
 
 CREATE TABLE `TrabajoFinal_TPV`.`Categoria` (
@@ -52,16 +53,16 @@ CREATE TABLE `TrabajoFinal_TPV`.`Categoria` (
   `Nombre` VARCHAR(30) NOT NULL,
   PRIMARY KEY (`ID_Categoria`));
 
-CREATE TABLE `TrabajoFinal_TPV`.`Lineas` (
-  `ID_Compra` INT NOT NULL,
+CREATE TABLE `TrabajoFinal_TPV`.`Linea` (
+  `ID_Factura` INT NOT NULL,
   `ID_Producto` INT NOT NULL,
   `Cantidad` INT NOT NULL,
-  `Sub_Total` FLOAT NOT NULL,
-  PRIMARY KEY (`ID_Compra`,`ID_Producto`),
-  CONSTRAINT `fk_compra_contenido` FOREIGN KEY (`ID_Compra`) REFERENCES `TrabajoFinal_TPV`.`Compra` (`ID_Compra`)
+  `Sub_Total` Double NOT NULL,
+  PRIMARY KEY (`ID_Factura`,`ID_Producto`),
+  CONSTRAINT `fk_factura_contenido` FOREIGN KEY (`ID_Factura`) REFERENCES `TrabajoFinal_TPV`.`Factura` (`ID_Factura`)
 	ON DELETE CASCADE
 	ON UPDATE CASCADE,
-  CONSTRAINT `fk_compra_producto` FOREIGN KEY (`ID_Producto`) REFERENCES `TrabajoFinal_TPV`.`Producto` (`ID_Producto`)
+  CONSTRAINT `fk_factura_producto` FOREIGN KEY (`ID_Producto`) REFERENCES `TrabajoFinal_TPV`.`Producto` (`ID_Producto`)
 	ON DELETE CASCADE
 	ON UPDATE CASCADE);
     

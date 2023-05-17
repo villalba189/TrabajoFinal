@@ -7,13 +7,13 @@ public class Factura {
 	private Cliente cliente;
 	private Date fecha;
 	private Boolean pagado;
-	private float total;
+	private double total;
 	private	HashSet<Linea> lineas;
 	public Factura() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Factura(int id_compra, Cliente cliente, Date fecha, Boolean pagado, float total) {
+	public Factura(int id_compra, Cliente cliente, Date fecha, Boolean pagado, double total) {
 		super();
 		this.id_compra = id_compra;
 		this.cliente = cliente;
@@ -45,16 +45,17 @@ public class Factura {
 	public void setPagado(Boolean pagado) {
 		this.pagado = pagado;
 	}
-	public float getTotal() {
+	public double getTotal() {
 		return total;
 	}
-	public void setTotal(float total) {
+	public void setTotal(double total) {
 		this.total = total;
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(cliente, fecha, id_compra, pagado, total);
+		return Objects.hash(cliente, fecha, id_compra, lineas, pagado, total);
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -65,10 +66,10 @@ public class Factura {
 			return false;
 		Factura other = (Factura) obj;
 		return Objects.equals(cliente, other.cliente) && Objects.equals(fecha, other.fecha)
-				&& id_compra == other.id_compra && Objects.equals(pagado, other.pagado)
-				&& Float.floatToIntBits(total) == Float.floatToIntBits(other.total);
+				&& id_compra == other.id_compra && Objects.equals(lineas, other.lineas)
+				&& Objects.equals(pagado, other.pagado)
+				&& Double.doubleToLongBits(total) == Double.doubleToLongBits(other.total);
 	}
-	@Override
 	public String toString() {
 		return "Factura [id_compra=" + id_compra + ", cliente=" + cliente + ", fecha=" + fecha + ", pagado=" + pagado
 				+ ", total=" + total + "]";
