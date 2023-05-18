@@ -74,5 +74,17 @@ public class Producto {
 				+ ", categorias=" + categorias + "]";
 	}
 	
+	public void agregarCategoria(Categoria categoria) {
+		categorias.add(categoria);
+
+	}
+
+	public void eliminarLinea(Categoria categoria) {
+		for (Categoria miCategoria : categorias) {
+			if (miCategoria.equals(categoria)) {
+				categorias.remove(miCategoria);
+			}
+		}
+	}
 	
 }

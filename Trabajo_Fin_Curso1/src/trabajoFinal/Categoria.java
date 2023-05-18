@@ -57,6 +57,17 @@ public class Categoria {
 		return "Categoria [id_categoria=" + id_categoria + ", nombre=" + nombre + ", productos=" + productos + "]";
 	}
 	
-	
+	public void agregarProducto(Producto producto) {
+		productos.add(producto);
+
+	}
+
+	public void eliminarLinea(Producto producto) {
+		for (Producto miproducto : productos) {
+			if (miproducto.equals(producto)) {
+				productos.remove(miproducto);
+			}
+		}
+	}
 	
 }

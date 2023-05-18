@@ -1,5 +1,6 @@
 package trabajoFinal;
 
+import java.time.*;
 import java.util.*;
 
 public class Nota {
@@ -12,13 +13,13 @@ public class Nota {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public Nota(Nota nota) {
-        this.id_nota = nota.id_nota;
-        this.titulo = nota.titulo;
-        this.fecha = new Date(nota.fecha.getTime());
-        this.descripcion = nota.descripcion;
-    }
+		this.id_nota = nota.id_nota;
+		this.titulo = nota.titulo;
+		this.fecha = new Date(nota.fecha.getTime());
+		this.descripcion = nota.descripcion;
+	}
 
 	public Nota(int id_nota, String titulo, Date fecha, String descripcion) {
 		super();
@@ -84,6 +85,15 @@ public class Nota {
 				+ "]";
 	}
 
-	
+	public int calcularAntiguedadEnDias() {
+		LocalDate fechaActual = LocalDate.now();
+		LocalDate fechaNota = convertirDateALocalDate(fecha);
+		Period periodo = Period.between(fechaNota, fechaActual);
+		return periodo.getDays();
+	}
+
+	private LocalDate convertirDateALocalDate(Date fecha) {
+		return fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	}
 
 }

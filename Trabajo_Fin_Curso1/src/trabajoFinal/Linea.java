@@ -76,5 +76,12 @@ public class Linea {
 		return "Linea [id_Linea=" + id_Linea + ", cantidad=" + cantidad + ", sub_total=" + sub_total + "]";
 	}
 	
+	public void calcularSub_Total(Producto producto) {
+		double subTotal = 0.0;
+		double IVA = 0.0;
+		IVA=producto.getPrecio()*producto.getIVA();
+		subTotal=(producto.getPrecio()+IVA)*cantidad;
+		sub_total=subTotal;
+	}
 	
 }
