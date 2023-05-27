@@ -111,6 +111,7 @@ public class Factura {
 	    this.total = total;
 	}
 	
+	
 	public void calcularPrecioConDescuento(double descuento) {
 	    double totalConDescuento = 0.0;
 	    totalConDescuento = this.total*(1+descuento);

@@ -80,6 +80,7 @@ public class Nota {
 	}
 
 	@Override
+	
 	public String toString() {
 		return "Nota [id_nota=" + id_nota + ", Titulo=" + titulo + ", Fecha=" + fecha + ", Descripcion=" + descripcion
 				+ "]";
