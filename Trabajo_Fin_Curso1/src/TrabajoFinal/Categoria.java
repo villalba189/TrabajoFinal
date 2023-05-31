@@ -17,6 +17,10 @@ public class Categoria {
 		this.id_categoria = id_categoria;
 		this.nombre = nombre;
 	}
+	public Categoria( String nombre) {
+		super();
+		this.nombre = nombre;
+	}
 
 	public int getId_categoria() {
 		return id_categoria;
@@ -57,17 +61,16 @@ public class Categoria {
 		return "Categoria [id_categoria=" + id_categoria + ", nombre=" + nombre + ", productos=" + productos + "]";
 	}
 	
-	public void agregarProducto(Producto producto) {
-		productos.add(producto);
+	public boolean agregarProducto(Producto producto) {
+		return productos.add(producto);
+		
+		
 
 	}
 
-	public void eliminarLinea(Producto producto) {
-		for (Producto miproducto : productos) {
-			if (miproducto.equals(producto)) {
-				productos.remove(miproducto);
-			}
-		}
+	public boolean eliminarProducto(Producto producto) {
+		
+		return productos.remove(producto);
 	}
 	
 }

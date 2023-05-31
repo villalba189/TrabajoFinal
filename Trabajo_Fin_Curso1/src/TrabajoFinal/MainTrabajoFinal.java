@@ -7,43 +7,9 @@ public class MainTrabajoFinal {
 	public static Scanner sc = new Scanner(System.in);
 	
 	public static void main(String[] args) {
-
-
-		String url = "jdbc:mysql://localhost:3307/trabajofinal_tpv";
-		String usuario = "Villalba";
-		String clave = "Villalba";
-		int cont=1;
-		int contP=1;
-		int eleccion;
-		try (Connection conexion = DriverManager.getConnection(url, usuario, clave)) {
-			 String buscarCategorias = "SELECT * FROM categoria";
-		      PreparedStatement stmtbuscarCategorias = conexion.prepareStatement(buscarCategorias);
-		      ResultSet rsbuscarCategorias = stmtbuscarCategorias.executeQuery();
-		      
-		      System.out.println("Elige una categoria");
-		     do {
-		    	 while (rsbuscarCategorias.next()) {
-			    	 
-			    	 System.out.println(cont + " " + rsbuscarCategorias.getString("Nombre"));
-			    	 cont++;
-				};
-		    	 
-			     eleccion = sc.nextInt();
-			     String mostrarProducto = "select * from producto where ID_Producto in (select ID_Producto from contiene_pro_cat c where ID_Categoria = ?);";
-			     PreparedStatement stmtMostrarProducto = conexion.prepareStatement(mostrarProducto);
-			     stmtMostrarProducto.setInt(1, eleccion);
-			      ResultSet rsMostrarProducto = stmtMostrarProducto.executeQuery();
-			      while (rsMostrarProducto.next()) {
-					      System.out.println(contP + " " + rsMostrarProducto.getString("Nombre"));
-				    	 contP++;
-					};
-		     }while(eleccion!=0);
-		} catch (SQLException e) {
-
-		}
-
-	}
 	
+	}
+
 	private static void menuPrincipal() {
 		int eleccion;
 		 do {
@@ -76,6 +42,8 @@ public class MainTrabajoFinal {
 		    }while (eleccion!=0);
 	}
 	
+	
+
 	private static void menuCategorias() {
 		int eleccion;
 		do {
@@ -89,13 +57,13 @@ public class MainTrabajoFinal {
 		   
 		    switch (eleccion) {
 		        case 0:
-		        	menuPrincipal();
+		        	
 		            break;
 		        case 1:
-				verCategorias();
+		        	verCategorias();
 		            break;
 		        case 2:
-				crearCategorias();
+		        	crearCategorias();
 		            break;
 		            
 		        case 3:
@@ -110,141 +78,49 @@ public class MainTrabajoFinal {
 		    }
 		}while (eleccion!=0);
 	}
-
 	
-	
-	public class ClienteBBDD extends ConexionBBDD{
-	    ConexionBBDD conexionBBDD = new ConexionBBDD ();
-	    Connection miConexion;
-	    
-	    PreparedStatement ps=null;
-	    ResultSet rs=null;
-	          
-	    /**
-	     * Constructor sin parámetros
-	     */
-	    public ClienteBBDD() {
-	    }
-	    
-	    /**
-	     * Método que recibe los datos del nuevo cliente y lo ingresa a la base de datos
-	     * @see controlador.ControladorConsultaEmpleados#insertarCliente() 
-	     * @param nuevoCliente Cliente para ingresar a la base de datos
-	     * @return true si lo ingresó correctamente a la base de datos
-	     */
-	    
-	    public boolean insertarClienteEnBBDD (Cliente nuevoCliente){
-	        
-	        try{
-	            miConexion=conexionBBDD.conectar();
-	            ps=miConexion.prepareStatement("insert into Cliente values (?,?,?,?,?)");
-	            ps.setInt(1, nuevoCliente.getID_Usario());
-	            ps.setString(2,nuevoCliente.getNombre());
-	            ps.setString(3,nuevoCliente.getApellido());
-	            ps.setInt(4, nuevoCliente.getTelefono());
-	            ps.setString(5, nuevoCliente.getCorreo());
-
-	            int resultado = ps.executeUpdate();
-	            if(resultado>0){ //Si insertó correctamente en la BBDD
-	                return true;
-	            }
-	            else{
-	                return false;
-	            }
-	        }catch(Exception e){
-	            e.printStackTrace();
-	            return false;
-	        }finally{ //El finally se ejecuta siempre. Asegura que cierre la conexión a BBDD
-	            try{
-	                miConexion.close();
-	            }catch(Exception e){
-	                e.printStackTrace();
-	            }
-	        }
-	    }    
-	   
-	    /**
-	     * Método que recibe los datos del cliente a editar y lo actualiza en la 
-	     * base de datos
-	     * @param clienteEditado Cliente para actualizar a la base de datos
-	     * @return true si lo actualizó correctamente en la base de datos
-	     * @see controlador.ControladorConsultaEmpleados#editarCliente() 
-	     */
-	    public boolean editarClienteEnBBDD (Cliente clienteEditado){
-	        
-	        try{
-	            miConexion=conexionBBDD.conectar();
-	            ps=miConexion.prepareStatement("update Cliente set Nombre=?,"
-	                    + "Apellido=?,Telefono=?, Correo=? where ID_Cliente=?");
-
-	            
-	            ps.setString(1,clienteEditado.getNombre());
-	            ps.setString(2,clienteEditado.getApellido());
-	            ps.setInt(3, clienteEditado.getTelefono());
-	            ps.setString(4, clienteEditado.getCorreo());
-	            ps.setInt(5, clienteEditado.getID_Usario());
-
-	            int resultado = ps.executeUpdate();
-	            if(resultado>0){ //Si modificó correctamente en la BBDD
-	                return true;
-	            }
-	            else{
-	                return false;
-	            }
-	        }catch(Exception e){
-	            e.printStackTrace();
-	            return false;
-	        }finally{ //El finally se ejecuta siempre. Asegura que cierre la conexión a BBDD
-	            try{
-	                miConexion.close();
-	            }catch(Exception e){
-	                e.printStackTrace();
-	            }
-	        }
-	    }
-	    
-	    
-	    /**
-	     * Método que recibe los datos del cliente a eliminar y lo elimina de la 
-	     * base de datos
-	     * @param clienteEliminar Cliente para eliminar de la base de datos
-	     * @return true si lo eliminó correctamente de la base de datos
-	     * @see controlador.ControladorConsultaEmpleados#eliminarCliente() 
-	     */
-	    public boolean eliminarClienteDeBBDD (Cliente clienteEliminar){
-	        
-	        try{
-	            miConexion=conexionBBDD.conectar();
-	            ps=miConexion.prepareStatement("delete from Cliente where "
-	                    + "(ID_Cliente=? and Nombre=? and Apellido=? and Telefono=? and Correo=?)");
-
-	            
-	            ps.setInt(1, clienteEliminar.getID_Usario());
-	            ps.setString(2,clienteEliminar.getNombre());
-	            ps.setString(3,clienteEliminar.getApellido());
-	            ps.setInt(4, clienteEliminar.getTelefono());
-	            ps.setString(5, clienteEliminar.getCorreo());
-
-
-	            int resultado = ps.executeUpdate();
-	            if(resultado>0){ //Si eliminó correctamente en la BBDD
-	                return true;
-	            }
-	            else{
-	                return false;
-	            }
-	        }catch(Exception e){
-	            e.printStackTrace();
-	            return false;
-	        }finally{ //El finally se ejecuta siempre. Asegura que cierre la conexión a BBDD
-	            try{
-	                miConexion.close();
-	            }catch(Exception e){
-	                e.printStackTrace();
-	            }
-	        }
-	    }
+ private static void crearCategorias( ) {
+		// TODO Auto-generated method stub
+	 Categoria nuevaCategoria = new Categoria();
+		System.out.println("dame le nombre de la categoria:");
+		String nombreCategoria = sc.nextLine();
+		if (nombreCategoria.isEmpty()) {
+            System.out.println("Error: No has puesto el nombre.");
+        } else {
+        	nuevaCategoria.setNombre(nombreCategoria);
+        	
+        }
 	}
+
+private static void verCategorias() {
+		// TODO Auto-generated method stub
+	 
+	try {
+		String buscarCategorias = "SELECT * FROM categoria";
+		PreparedStatement stmtbuscarCategorias;
+		stmtbuscarCategorias = conexion.prepareStatement(buscarCategorias);
+		ResultSet rsbuscarCategorias = stmtbuscarCategorias.executeQuery();
+		
+	    	 while (rsbuscarCategorias.next()) {
+		    	 
+		    	 System.out.println(cont + " " + rsbuscarCategorias.getString("Nombre"));
+		    	 cont++;
+		    	 }
+	} catch (SQLException e) {
+		System.out.println("Error en la operación: " + e.getMessage());
+	}
+    
+}
+	
+
+
+private static void menuClientes() {
+	// TODO Auto-generated method stub
+	
 }
 
-
+private static void menuProductos() {
+	// TODO Auto-generated method stub
+	
+}
+}

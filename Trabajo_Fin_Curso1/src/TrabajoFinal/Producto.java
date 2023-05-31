@@ -75,16 +75,23 @@ public class Producto {
 	}
 	
 	public void agregarCategoria(Categoria categoria) {
-		categorias.add(categoria);
+		if (categorias.add(categoria)) {
+			categoria.agregarProducto(this);
+			GestorBBDD.insertarRelacionCatPro(categoria,this);
+		}
+		
 
 	}
 
-	public void eliminarLinea(Categoria categoria) {
-		for (Categoria miCategoria : categorias) {
-			if (miCategoria.equals(categoria)) {
-				categorias.remove(miCategoria);
-			}
-		}
+	public void eliminarCategoria(Categoria categoria) {
+		
+				if (categorias.remove(categoria)) {
+					categoria.eliminarProducto(this);
+					GestorBBDD.eliminarRelacionCatPro(categoria,this);
+
+				}
+				
+		
 	}
 	
 }
