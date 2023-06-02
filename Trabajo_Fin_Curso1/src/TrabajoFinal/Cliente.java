@@ -12,8 +12,14 @@ public class Cliente extends Usuario {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Cliente(int id_Usario, String nombre, String apellido, int telefono, String correo) {
-		super(id_Usario, nombre, apellido, telefono);
+	public Cliente(int id_Usuario, String nombre, String apellido, int telefono, String correo) {
+		super(id_Usuario, nombre, apellido, telefono);
+		this.correo = correo;
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Cliente( String nombre, String apellido, int telefono, String correo) {
+		super(nombre, apellido, telefono);
 		this.correo = correo;
 		// TODO Auto-generated constructor stub
 	}
@@ -24,7 +30,7 @@ public class Cliente extends Usuario {
 	}
 
 	public Cliente(Cliente cliente) {
-		this.id_Usario = cliente.id_Usario;
+		this.id_Usuario = cliente.id_Usuario;
 		this.nombre = cliente.nombre;
 		this.apellido = cliente.apellido;
 		this.telefono = cliente.telefono;
@@ -80,11 +86,8 @@ public class Cliente extends Usuario {
 	}
 
 	public void eliminarNota(Nota nota) {
-		for (Nota miNota : notas) {
-			if (miNota.equals(nota)) {
-				notas.remove(miNota);
-			}
-		}
+		notas.remove(nota);
+
 	}
 
 	public void agregarFactura(Factura factura) {
@@ -92,10 +95,7 @@ public class Cliente extends Usuario {
 	}
 
 	public void eliminarFactura(Factura factura) {
-		for (Factura miFactura : facturas) {
-			if (miFactura.equals(factura)) {
-				notas.remove(miFactura);
-			}
-		}
+		facturas.remove(factura);
+
 	}
 }

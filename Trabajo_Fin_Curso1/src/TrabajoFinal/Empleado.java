@@ -15,7 +15,7 @@ public class Empleado extends Usuario  {
 	
 	//constructor copy
 	public Empleado(Empleado empleado) {
-	    this.id_Usario = empleado.id_Usario;
+	    this.id_Usuario = empleado.id_Usuario;
 	    this.nombre = empleado.nombre;
 	    this.apellido = empleado.apellido;
 	    this.telefono = empleado.telefono;

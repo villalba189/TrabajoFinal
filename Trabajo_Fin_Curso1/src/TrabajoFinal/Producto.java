@@ -20,6 +20,11 @@ public class Producto {
 		this.nombre = nombre;
 		this.precio = precio;
 	}
+	public Producto( String nombre, Double precio) {
+		super();
+		this.nombre = nombre;
+		this.precio = precio;
+	}
 
 	public int getId_producto() {
 		return id_producto;
