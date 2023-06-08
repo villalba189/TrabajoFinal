@@ -90,16 +90,12 @@ public class Factura {
 	}
 
 	public void agregarLinea(Linea linea) {
-		lineas.add(linea);
-
+				lineas.add(linea);
+				
 	}
 
 	public void eliminarLinea(Linea linea) {
-		for (Linea miLinea : lineas) {
-			if (miLinea.equals(linea)) {
-				lineas.remove(miLinea);
-			}
-		}
+				lineas.remove(linea);
 	}
 	
 	public void calcularTotal() {

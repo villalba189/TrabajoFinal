@@ -34,7 +34,7 @@ CREATE TABLE `TrabajoFinal_TPV`.`Factura` (
   `ID_Factura` INT NOT NULL AUTO_INCREMENT,
   `Fecha` DATE NOT NULL,
   `Pagado` boolean default false,
-  `Total` Double NOT NULL,
+  `Total` Double,
   `ID_Cliente` INT NOT NULL,
   PRIMARY KEY (`ID_Factura`),
   CONSTRAINT `fk_factura_cliente` FOREIGN KEY (`ID_Cliente`) REFERENCES `TrabajoFinal_TPV`.`Cliente` (`ID_Cliente`)
@@ -45,7 +45,7 @@ CREATE TABLE `TrabajoFinal_TPV`.`Producto` (
   `ID_Producto` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(30) NOT NULL,
   `Precio` Double NOT NULL,
-  `IVA` Double NOT NULL,
+  `IVA` Double NOT NULL DEFAULT 21,
   PRIMARY KEY (`ID_Producto`));
 
 CREATE TABLE `TrabajoFinal_TPV`.`Categoria` (
@@ -54,11 +54,12 @@ CREATE TABLE `TrabajoFinal_TPV`.`Categoria` (
   PRIMARY KEY (`ID_Categoria`));
 
 CREATE TABLE `TrabajoFinal_TPV`.`Linea` (
+`ID_Linea` INT NOT NULL AUTO_INCREMENT,
   `ID_Factura` INT NOT NULL,
   `ID_Producto` INT NOT NULL,
   `Cantidad` INT NOT NULL,
   `Sub_Total` Double NOT NULL,
-  PRIMARY KEY (`ID_Factura`,`ID_Producto`),
+  PRIMARY KEY (`ID_Linea`,`ID_Factura`,`ID_Producto`),
   CONSTRAINT `fk_factura_contenido` FOREIGN KEY (`ID_Factura`) REFERENCES `TrabajoFinal_TPV`.`Factura` (`ID_Factura`)
 	ON DELETE CASCADE
 	ON UPDATE CASCADE,

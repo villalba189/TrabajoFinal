@@ -63,8 +63,6 @@ public class Categoria {
 	
 	public boolean agregarProducto(Producto producto) {
 		return productos.add(producto);
-		
-		
 
 	}
 
