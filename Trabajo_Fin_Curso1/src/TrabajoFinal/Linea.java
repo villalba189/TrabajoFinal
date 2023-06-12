@@ -21,6 +21,12 @@ public class Linea {
 		this.producto = producto;
 	}
 
+	public Linea(int cantidad, Producto producto) {
+	    this.cantidad = cantidad;
+	    this.producto = producto;
+	    calcularSub_Total(producto);
+	}
+
 	public int getId_Linea() {
 		return id_Linea;
 	}

@@ -10,21 +10,25 @@ public class Producto {
 	private HashSet<Categoria> categorias;
 	
 	public Producto() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+        super();
+        categorias = new HashSet<>(); // Inicialización de la variable categorias
+    }
 
-	public Producto(int id_producto, String nombre, Double precio) {
-		super();
-		this.id_producto = id_producto;
-		this.nombre = nombre;
-		this.precio = precio;
-	}
-	public Producto( String nombre, Double precio) {
-		super();
-		this.nombre = nombre;
-		this.precio = precio;
-	}
+    public Producto(int id_producto, String nombre, Double precio) {
+        super();
+        this.id_producto = id_producto;
+        this.nombre = nombre;
+        this.precio = precio;
+        categorias = new HashSet<>(); // Inicialización de la variable categorias
+    }
+
+    public Producto(String nombre, Double precio) {
+        super();
+        this.nombre = nombre;
+        this.precio = precio;
+        categorias = new HashSet<>(); // Inicialización de la variable categorias
+    }
+
 
 	public int getId_producto() {
 		return id_producto;

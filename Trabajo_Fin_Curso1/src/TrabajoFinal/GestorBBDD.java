@@ -3,7 +3,6 @@ package TrabajoFinal;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Optional;
 
 public class GestorBBDD {
@@ -20,7 +19,7 @@ public class GestorBBDD {
 
 
 	public static ArrayList<Categoria> getCategorias() {
-		ArrayList<Categoria> categorias= new ArrayList();
+		ArrayList<Categoria> categorias= new ArrayList<Categoria>();
 		try( Connection miConexion = DriverManager.getConnection(url,usuario,clave) )
 		{
 
@@ -110,8 +109,8 @@ public class GestorBBDD {
 		}
 	}
 
-	public static HashSet<Producto> productosCategoriaEnBBDD(Categoria nuevoCategoria) {
-		HashSet<Producto> productos= new HashSet<>();
+	public static ArrayList<Producto> productosCategoriaEnBBDD(Categoria nuevoCategoria) {
+		ArrayList<Producto> productos= new ArrayList<Producto>();
 		try( Connection miConexion = DriverManager.getConnection(url,usuario,clave) )
 		{
 
@@ -175,17 +174,13 @@ public class GestorBBDD {
 
 	public static boolean insertarRelacionCatPro(Categoria categoria, Producto producto) {
 	    try (Connection miConexion = DriverManager.getConnection(url, usuario, clave)) {
-	        ps = miConexion.prepareStatement("INSERT INTO contiene_pro_cat (ID_Categoria, ID_Producto) VALUES (?,?)",Statement.RETURN_GENERATED_KEYS);
+	        ps = miConexion.prepareStatement("INSERT INTO contiene_pro_cat (ID_Categoria, ID_Producto) VALUES (?,?)");
 	        ps.setInt(1, categoria.getId_categoria());
 	        ps.setInt(2, producto.getId_producto());
 
 	        int resultado = ps.executeUpdate();
 	        if (resultado > 0) {
-	        	ResultSet generatedKeys = ps.getGeneratedKeys();
-	            if (generatedKeys.next()) {
-	                int idCategoriaGenerado = generatedKeys.getInt(1);
-	                nuevoCategoria.setId_categoria(idCategoriaGenerado);
-	            }
+	        	
 	            return true; // Si se insertó correctamente en la BBDD
 	            
 	        } else {
@@ -196,7 +191,6 @@ public class GestorBBDD {
 	        return false; // Si hubo una excepción
 	    }
 	}
-
 
 	public static boolean eliminarRelacionCatPro(Categoria categoria, Producto producto) {
 		try( Connection miConexion = DriverManager.getConnection(url,usuario,clave) )
@@ -226,7 +220,7 @@ public class GestorBBDD {
 
 
 	public static ArrayList<Producto> getProductos() {
-		ArrayList<Producto> productos= new ArrayList<>();
+		ArrayList<Producto> productos= new ArrayList<Producto>();
 		try( Connection miConexion = DriverManager.getConnection(url,usuario,clave) )
 		{
 
@@ -262,8 +256,8 @@ public class GestorBBDD {
 			if(resultado>0){ //Si insertó correctamente en la BBDD
 				ResultSet generatedKeys = ps.getGeneratedKeys();
 	            if (generatedKeys.next()) {
-	                int idCategoriaGenerado = generatedKeys.getInt(1);
-	                nuevoCategoria.setId_categoria(idCategoriaGenerado);
+	                int idProductoGenerado = generatedKeys.getInt(1);
+	                nuevoProducto.setId_producto(idProductoGenerado);
 	            }
 				return true;
 			}
@@ -321,30 +315,24 @@ public class GestorBBDD {
 		}
 	}
 
-	public static HashSet<Producto> categoriasProductoEnBBDD(Producto nuevoProducto) {
-		HashSet<Producto> productos= new HashSet<>();
-		try( Connection miConexion = DriverManager.getConnection(url,usuario,clave) )
-		{
+	public static ArrayList<Categoria> categoriasProductoEnBBDD(Producto producto) {
+	    ArrayList<Categoria> categorias = new ArrayList<>();
+	    try (Connection miConexion = DriverManager.getConnection(url, usuario, clave)) {
+	        ps = miConexion.prepareStatement("SELECT ID_Categoria, Nombre FROM categoria WHERE ID_Categoria IN (SELECT ID_Categoria FROM contiene_pro_cat WHERE ID_Producto = ?)");
+	        ps.setInt(1, producto.getId_producto());
+	        rs = ps.executeQuery();
+	        while (rs.next()) {
+	            int id_categoria = rs.getInt("ID_Categoria");
+	            String nombre = rs.getString("Nombre");
 
-			ps=miConexion.prepareStatement("select * from categoria where ID_Categoria in (select ID_Categoria from contiene_pro_cat  where ID_Producto = ?);");
-			ps.setInt(1,nuevoProducto.getId_producto());
-			rs=ps.executeQuery();
-			while (rs.next()) {
-				int id_producto = rs.getInt("ID_Producto");
-				String nombre = rs.getString("Nombre");
-				Double precio = rs.getDouble("Precio");
-
-				Producto producto = new Producto(id_producto,nombre, precio); 
-				productos.add(producto);
-			}
-
-		}catch(Exception e){
-
-
-			e.printStackTrace();
-		}
-		return productos;
-	}    
+	            Categoria categoria = new Categoria(id_categoria, nombre);
+	            categorias.add(categoria);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return categorias;
+	}
 
 	public static Optional<Producto>  buscarPorNombreProducto (String nombreProducto) {
 		Optional<Producto> opcionalProducto = Optional.empty();
@@ -392,19 +380,19 @@ public class GestorBBDD {
 	//----------------------------CLIENTES--------------------------------
 	
 
-	public static HashSet<Cliente> getClientes() {
-		HashSet<Cliente> clientes= new HashSet<>();
+	public static ArrayList<Cliente> getClientes() {
+		ArrayList<Cliente> clientes= new ArrayList<Cliente>();
 		try( Connection miConexion = DriverManager.getConnection(url,usuario,clave) )
 		{
 
 			ps=miConexion.prepareStatement("SELECT * FROM cliente");
 			rs=ps.executeQuery();
 			while (rs.next()) {
-				int id_cliente = rs.getInt("ID_Usuario");
+				int id_cliente = rs.getInt("ID_Cliente");
 				String nombre = rs.getString("Nombre");
 				String apellido = rs.getString("Apellido");
 				int telefono = rs.getInt("Telefono");
-				String correo= rs.getString("Corrio");
+				String correo= rs.getString("Correo");
 				Cliente cliente = new Cliente(id_cliente,nombre,apellido,telefono,correo);
 				clientes.add(cliente);
 			}
@@ -431,6 +419,11 @@ public class GestorBBDD {
 
 			int resultado = ps.executeUpdate();
 			if(resultado>0){ //Si insertó correctamente en la BBDD
+				ResultSet generatedKeys = ps.getGeneratedKeys();
+	            if (generatedKeys.next()) {
+	                int idClienteGenerado = generatedKeys.getInt(1);
+	                nuevoCliente.setID_Usuario(idClienteGenerado);
+	            }
 				return true;
 			}
 			else{
@@ -471,7 +464,7 @@ public class GestorBBDD {
 
 		try( Connection miConexion = DriverManager.getConnection(url,usuario,clave) )
 		{
-			ps=miConexion.prepareStatement("delete from cliente where Nombre=? and ID_Usuario=?");
+			ps=miConexion.prepareStatement("delete from cliente where Nombre=? and ID_Cliente=?");
 
 			ps.setString(1,nuevoCliente.getNombre());
 			ps.setInt(2,nuevoCliente.getID_Usuario());
@@ -489,8 +482,8 @@ public class GestorBBDD {
 		}
 	}
 
-	public static HashSet<Nota> notasClientesEnBBDD(Cliente nuevoCliente) {
-		HashSet<Nota> notas= new HashSet<>();
+	public static ArrayList<Nota> notasClientesEnBBDD(Cliente nuevoCliente) {
+		ArrayList<Nota> notas= new ArrayList<Nota>();
 		try( Connection miConexion = DriverManager.getConnection(url,usuario,clave) )
 		{
 
@@ -516,8 +509,8 @@ public class GestorBBDD {
 		
 	}    
 	
-	public static HashSet<Factura> facturasClientesEnBBDD(Cliente nuevoCliente) {
-		HashSet<Factura> facturas= new HashSet<>();
+	public static ArrayList<Factura> facturasClientesEnBBDD(Cliente nuevoCliente) {
+		ArrayList<Factura> facturas= new ArrayList<Factura>();
 		try( Connection miConexion = DriverManager.getConnection(url,usuario,clave) )
 		{
 
@@ -551,7 +544,7 @@ public class GestorBBDD {
 			ps.setString(1, nombreCliente);
 			rs=ps.executeQuery();
 			while (rs.next()) {
-				int id_cliente = rs.getInt("ID_Usuario");
+				int id_cliente = rs.getInt("ID_Cliente");
 				String nombre = rs.getString("Nombre");
 				String apellido = rs.getString("Apellido");
 				int telefono = rs.getInt("Telefono");
@@ -605,8 +598,8 @@ public class GestorBBDD {
             if (resultado > 0) {
             	ResultSet generatedKeys = ps.getGeneratedKeys();
 	            if (generatedKeys.next()) {
-	                int idCategoriaGenerado = generatedKeys.getInt(1);
-	                nuevoCategoria.setId_categoria(idCategoriaGenerado);
+	                int idNotaGenerado = generatedKeys.getInt(1);
+	                nuevaNota.setId_nota(idNotaGenerado);
 	            }
                 return true;
             } else {
@@ -755,26 +748,42 @@ public class GestorBBDD {
 	
 	//-----------------------------Factura-----------------------------------
 	
-	public static boolean insertarFacturaEnBBDD(Factura nuevaFactura) {
+	public static int insertarFacturaEnBBDD(Factura nuevaFactura) {
 	    try (Connection miConexion = DriverManager.getConnection(url, usuario, clave)) {
-	        ps = miConexion.prepareStatement("INSERT INTO Factura (Fecha, Pagado, ID_Cliente) VALUES (?, ?, ?)",Statement.RETURN_GENERATED_KEYS);
+	        ps = miConexion.prepareStatement("INSERT INTO Factura (Fecha, Pagado, ID_Cliente) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
 	        ps.setDate(1, new java.sql.Date(nuevaFactura.getFecha().getTime()));
 	        ps.setBoolean(2, nuevaFactura.getPagado());
-	        ps.setInt(4, nuevaFactura.getCliente().getID_Usuario());
+	        ps.setInt(3, nuevaFactura.getCliente().getID_Usuario());
 
 	        int resultado = ps.executeUpdate();
 
 	        if (resultado > 0) {
-	        	ResultSet generatedKeys = ps.getGeneratedKeys();
+	            ResultSet generatedKeys = ps.getGeneratedKeys();
 	            if (generatedKeys.next()) {
 	                int idFacturaGenerado = generatedKeys.getInt(1);
 	                nuevaFactura.setId_compra(idFacturaGenerado);
+	                return idFacturaGenerado;
 	            }
-	            return true;
-	        } else {
-	            return false;
 	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return -1; // Retornar un valor inválido en caso de error
+	}
+
+	public static boolean actualizarFacturaEnBBDD(Factura factura) {
+	    try (Connection miConexion = DriverManager.getConnection(url, usuario, clave)) {
+	        ps = miConexion.prepareStatement("UPDATE Factura SET Fecha=?, Pagado=?, ID_Cliente=? WHERE ID_Factura=?");
+
+	        ps.setDate(1, new java.sql.Date(factura.getFecha().getTime()));
+	        ps.setBoolean(2, factura.getPagado());
+	        ps.setInt(3, factura.getCliente().getID_Usuario());
+	        ps.setInt(4, factura.getId_compra());
+
+	        int resultado = ps.executeUpdate();
+	        return resultado > 0;
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        return false;
@@ -807,6 +816,7 @@ public class GestorBBDD {
 	    
 	}
 
+	
 	
 	
 

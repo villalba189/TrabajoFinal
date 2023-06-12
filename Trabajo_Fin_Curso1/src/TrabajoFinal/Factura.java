@@ -3,17 +3,20 @@ package TrabajoFinal;
 import java.util.*;
 
 public class Factura {
+	Calendar calendar = Calendar.getInstance();
+	Date fechaActual = calendar.getTime();
+	
 	private int id_compra;
 	private Cliente cliente;
-	private Date fecha;
-	private Boolean pagado;
+	private Date fecha = fechaActual;
+	private Boolean pagado = false;
 	private double total;
 	private HashSet<Linea> lineas;
 
 	public Factura() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+        super();
+        this.lineas = new HashSet<>();
+    }
 
 	public Factura(int id_compra, Cliente cliente, Date fecha, Boolean pagado, double total) {
 		super();
@@ -23,6 +26,7 @@ public class Factura {
 		this.pagado = pagado;
 		this.total = total;
 	}
+	
 
 	public int getId_compra() {
 		return id_compra;

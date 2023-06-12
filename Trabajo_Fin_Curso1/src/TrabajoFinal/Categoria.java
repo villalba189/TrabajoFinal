@@ -8,19 +8,22 @@ public class Categoria {
 	private HashSet<Producto> productos;
 	
 	public Categoria() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+        super();
+        productos = new HashSet<>(); // Inicialización de la variable productos
+    }
 
-	public Categoria(int id_categoria, String nombre) {
-		super();
-		this.id_categoria = id_categoria;
-		this.nombre = nombre;
-	}
-	public Categoria( String nombre) {
-		super();
-		this.nombre = nombre;
-	}
+    public Categoria(int id_categoria, String nombre) {
+        super();
+        this.id_categoria = id_categoria;
+        this.nombre = nombre;
+        productos = new HashSet<>(); // Inicialización de la variable productos
+    }
+
+    public Categoria(String nombre) {
+        super();
+        this.nombre = nombre;
+        productos = new HashSet<>(); // Inicialización de la variable productos
+    }
 
 	public int getId_categoria() {
 		return id_categoria;

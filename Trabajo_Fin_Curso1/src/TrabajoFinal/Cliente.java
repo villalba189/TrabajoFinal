@@ -8,34 +8,40 @@ public class Cliente extends Usuario {
 	private TreeSet<Factura> facturas;
 
 	public Cliente() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+        super();
+        notas = new TreeSet<>(); // Inicialización de la variable notas
+        facturas = new TreeSet<>(); // Inicialización de la variable facturas
+    }
 
-	public Cliente(int id_Usuario, String nombre, String apellido, int telefono, String correo) {
-		super(id_Usuario, nombre, apellido, telefono);
-		this.correo = correo;
-		// TODO Auto-generated constructor stub
-	}
-	
-	public Cliente( String nombre, String apellido, int telefono, String correo) {
-		super(nombre, apellido, telefono);
-		this.correo = correo;
-		// TODO Auto-generated constructor stub
-	}
+    public Cliente(int id_Usuario, String nombre, String apellido, int telefono, String correo) {
+        super(id_Usuario, nombre, apellido, telefono);
+        this.correo = correo;
+        notas = new TreeSet<>(); // Inicialización de la variable notas
+        facturas = new TreeSet<>(); // Inicialización de la variable facturas
+    }
 
-	public Cliente(Usuario usuario) {
-		super(usuario);
-		// TODO Auto-generated constructor stub
-	}
+    public Cliente(String nombre, String apellido, int telefono, String correo) {
+        super(nombre, apellido, telefono);
+        this.correo = correo;
+        notas = new TreeSet<>(); // Inicialización de la variable notas
+        facturas = new TreeSet<>(); // Inicialización de la variable facturas
+    }
 
-	public Cliente(Cliente cliente) {
-		this.id_Usuario = cliente.id_Usuario;
-		this.nombre = cliente.nombre;
-		this.apellido = cliente.apellido;
-		this.telefono = cliente.telefono;
-		this.correo = cliente.correo;
-	}
+    public Cliente(Usuario usuario) {
+        super(usuario);
+        notas = new TreeSet<>(); // Inicialización de la variable notas
+        facturas = new TreeSet<>(); // Inicialización de la variable facturas
+    }
+
+    public Cliente(Cliente cliente) {
+        this.id_Usuario = cliente.id_Usuario;
+        this.nombre = cliente.nombre;
+        this.apellido = cliente.apellido;
+        this.telefono = cliente.telefono;
+        this.correo = cliente.correo;
+        notas = new TreeSet<>(); // Inicialización de la variable notas
+        facturas = new TreeSet<>(); // Inicialización de la variable facturas
+    }
 
 	public String getCorreo() {
 		return correo;
