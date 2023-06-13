@@ -139,8 +139,6 @@ public class MainTrabajoFinal {
     }
 
     private static void agregarProductoCategoria() {
-    	 sc.nextLine();
-    	System.out.println("Categorías disponibles:");
        mostrarCategorias();
         
         System.out.println("Ingrese el número de la categoría:");
