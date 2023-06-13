@@ -195,7 +195,7 @@ public class GestorBBDD {
 	public static boolean eliminarRelacionCatPro(Categoria categoria, Producto producto) {
 		try( Connection miConexion = DriverManager.getConnection(url,usuario,clave) )
 		{
-			ps=miConexion.prepareStatement("delete from contiene_pro_cat when Id_categoria=? and Id_producto=?");
+			ps=miConexion.prepareStatement("delete from contiene_pro_cat where Id_categoria=? and Id_producto=?");
 
 			ps.setInt(1,categoria.getId_categoria());
 			ps.setInt(2,producto.getId_producto());
@@ -487,13 +487,14 @@ public class GestorBBDD {
 		try( Connection miConexion = DriverManager.getConnection(url,usuario,clave) )
 		{
 
-			ps=miConexion.prepareStatement("select * from nota where ID_Cliente = ?);");
+			ps = miConexion.prepareStatement("SELECT * FROM nota WHERE ID_Cliente = ?");
+
 			ps.setInt(1,nuevoCliente.getID_Usuario());
 			rs=ps.executeQuery();
 			while (rs.next()) {
 				int id_nota = rs.getInt("ID_Nota");
 				String titulo = rs.getString("Titulo");
-				Date fecha = rs.getDate("Fecha");
+				Timestamp fecha = rs.getTimestamp("Fecha");
 				String descripcion = rs.getString("Descripcion");
 				
 				Nota nota = new Nota(id_nota,titulo, fecha,descripcion); 
@@ -514,12 +515,12 @@ public class GestorBBDD {
 		try( Connection miConexion = DriverManager.getConnection(url,usuario,clave) )
 		{
 
-			ps=miConexion.prepareStatement("select * from factura where ID_Cliente = ?);");
+			ps=miConexion.prepareStatement("select * from factura where ID_Cliente =?");
 			ps.setInt(1,nuevoCliente.getID_Usuario());
 			rs=ps.executeQuery();
 			while (rs.next()) {
 				int id_factura = rs.getInt("ID_Factura");
-				Date fecha = rs.getDate("Fecha");
+				Timestamp fecha = rs.getTimestamp("Fecha");
 				boolean pagado = rs.getBoolean("Pagado");
 				Double total = rs.getDouble("Total");
 				
@@ -585,14 +586,15 @@ public class GestorBBDD {
 	
 	
 	
-	public static boolean insertarNotaEnBBDD(Nota nuevaNota) {
+	public static boolean insertarNotaEnBBDD(Nota nuevaNota, Cliente cliente) {
         try (Connection miConexion = DriverManager.getConnection(url, usuario, clave)) {
 
-            ps = miConexion.prepareStatement("INSERT INTO Nota (Titulo, Fecha, Descripcion) VALUES (?, ?, ?)",Statement.RETURN_GENERATED_KEYS);
+            ps = miConexion.prepareStatement("INSERT INTO Nota (Titulo, Fecha, Descripcion, ID_Cliente) VALUES (?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, nuevaNota.getTitulo());
-            ps.setDate(2, new java.sql.Date(nuevaNota.getFecha().getTime()));
+            ps.setTimestamp(2, new java.sql.Timestamp(nuevaNota.getFecha().getTime()));
             ps.setString(3, nuevaNota.getDescripcion());
+            ps.setInt(4, cliente.getID_Usuario());
 
             int resultado = ps.executeUpdate();
             if (resultado > 0) {
@@ -611,15 +613,16 @@ public class GestorBBDD {
         }
     }
 
-    public static boolean actualizarNotaEnBBDD(Nota notaActualizada) {
+    public static boolean actualizarNotaEnBBDD(Nota notaActualizada, Cliente cliente) {
         try (Connection miConexion = DriverManager.getConnection(url, usuario, clave)) {
 
-            ps = miConexion.prepareStatement("UPDATE Nota SET Titulo=?, Fecha=?, Descripcion=? WHERE ID_Nota=?");
+            ps = miConexion.prepareStatement("UPDATE Nota SET Titulo=?, Fecha=?, Descripcion=?, ID_Cliente=? WHERE ID_Nota=?");
 
             ps.setString(1, notaActualizada.getTitulo());
-            ps.setDate(2, new java.sql.Date(notaActualizada.getFecha().getTime()));
+            ps.setTimestamp(2, new java.sql.Timestamp(notaActualizada.getFecha().getTime()));
             ps.setString(3, notaActualizada.getDescripcion());
-            ps.setInt(4, notaActualizada.getId_nota());
+            ps.setInt(4, cliente.getID_Usuario());
+            ps.setInt(5, notaActualizada.getId_nota());
 
             int resultado = ps.executeUpdate();
             if (resultado > 0) {
@@ -662,7 +665,7 @@ public class GestorBBDD {
             while (rs.next()) {
                 int idNotaResult = rs.getInt("ID_Nota");
                 String titulo = rs.getString("Titulo");
-                Date fecha = rs.getDate("Fecha");
+                Timestamp fecha = rs.getTimestamp("Fecha");
                 String descripcion = rs.getString("Descripcion");
                 Nota nota = new Nota(idNotaResult, titulo, fecha, descripcion);
                 opcionalNota = Optional.of(nota);
@@ -752,7 +755,7 @@ public class GestorBBDD {
 	    try (Connection miConexion = DriverManager.getConnection(url, usuario, clave)) {
 	        ps = miConexion.prepareStatement("INSERT INTO Factura (Fecha, Pagado, ID_Cliente) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
-	        ps.setDate(1, new java.sql.Date(nuevaFactura.getFecha().getTime()));
+	        ps.setTimestamp(1, new java.sql.Timestamp(nuevaFactura.getFecha().getTime()));
 	        ps.setBoolean(2, nuevaFactura.getPagado());
 	        ps.setInt(3, nuevaFactura.getCliente().getID_Usuario());
 
@@ -775,12 +778,14 @@ public class GestorBBDD {
 
 	public static boolean actualizarFacturaEnBBDD(Factura factura) {
 	    try (Connection miConexion = DriverManager.getConnection(url, usuario, clave)) {
-	        ps = miConexion.prepareStatement("UPDATE Factura SET Fecha=?, Pagado=?, ID_Cliente=? WHERE ID_Factura=?");
+	        ps = miConexion.prepareStatement("UPDATE Factura SET Fecha=?, Pagado=?, ID_Cliente=?, Total=? WHERE ID_Factura=?");
 
-	        ps.setDate(1, new java.sql.Date(factura.getFecha().getTime()));
+	        ps.setTimestamp(1, new java.sql.Timestamp(factura.getFecha().getTime()));
 	        ps.setBoolean(2, factura.getPagado());
 	        ps.setInt(3, factura.getCliente().getID_Usuario());
-	        ps.setInt(4, factura.getId_compra());
+	        ps.setDouble(4, factura.getTotal());
+	        ps.setInt(5, factura.getId_compra());
+	       
 
 	        int resultado = ps.executeUpdate();
 	        return resultado > 0;
@@ -791,33 +796,31 @@ public class GestorBBDD {
 	}
 
 	public static ArrayList<Linea> getLineasDeFactura(Factura miFactura) {
-		ArrayList<Linea> lineas = new ArrayList<>();
-	    try (Connection miConexion = DriverManager.getConnection(url, usuario, clave)) {
+    ArrayList<Linea> lineas = new ArrayList<>();
+    try (Connection miConexion = DriverManager.getConnection(url, usuario, clave)) {
+        try (PreparedStatement ps = miConexion.prepareStatement("SELECT * FROM Linea where ID_Factura=?")) {
+            ps.setInt(1, miFactura.getId_compra());
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int id_linea = rs.getInt("ID_Linea");
+                    int id_producto = rs.getInt("ID_Producto");
+                    int cantidad = rs.getInt("Cantidad");
+                    double sub_total = rs.getDouble("Sub_Total");
 
-	        ps = miConexion.prepareStatement("SELECT * FROM Linea where ID_Factura=?");
-	        ps.setInt(1, miFactura.getId_compra());
-	        rs = ps.executeQuery();
-	        while (rs.next()) {
-	            int id_linea = rs.getInt("ID_Linea");
-	            int id_producto = rs.getInt("ID_Producto");
-	            int cantidad = rs.getInt("Cantidad");
-	            double sub_total = rs.getDouble("Sub_Total");
-	            
-	            Optional<Producto> optProducto = buscarPorIdProducto(id_producto);
-	            
-	            Linea linea = new Linea(id_linea, cantidad, sub_total, optProducto.get());
-	            lineas.add(linea);
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
+                    Optional<Producto> optProducto = buscarPorIdProducto(id_producto);
 
-	    return lineas;
-	    
-	}
+                    Linea linea = new Linea(id_linea, cantidad, sub_total, optProducto.get());
+                    lineas.add(linea);
+                }
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
 
-	
-	
+    return lineas;
+}
+
 	
 
 }

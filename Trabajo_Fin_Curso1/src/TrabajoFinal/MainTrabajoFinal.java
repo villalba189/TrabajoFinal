@@ -12,7 +12,7 @@ public class MainTrabajoFinal {
     private static void menuPrincipal() {
         int eleccion;
         do {
-            System.out.println("Introduzca la opción que desea realizar: " +
+            System.out.println("\nIntroduzca la opción que desea realizar: " +
                     "\n1. Crear Factura.\n" +
                     "2. Visualizar productos o categorías.\n" +
                     "3. Administrar.\n" +
@@ -41,9 +41,10 @@ public class MainTrabajoFinal {
     
     
     private static void administrar() {
-        int eleccion;
+    	 sc.nextLine();
+    	int eleccion;
         do {
-            System.out.println("Introduzca la opción que desea realizar: " +
+            System.out.println("\nIntroduzca la opción que desea realizar: " +
                     "\n1. Menú Categoría.\n" +
                     "2. Menú Productos.\n" +
                     "3. Menú Clientes.\n" +
@@ -70,9 +71,10 @@ public class MainTrabajoFinal {
 
     
     private static void menuCategorias() {
-        int eleccion;
+    	 sc.nextLine();
+    	int eleccion;
         do {
-            System.out.println("Menú categorías: \n" +
+            System.out.println("\nMenú categorías: \n" +
                     "1. Añadir categoría.\n" +
                     "2. Eliminar categoría.\n" +
                     "3. Editar categoría.\n" +
@@ -107,8 +109,9 @@ public class MainTrabajoFinal {
     }
 
     private static void mostrarCategorias() {
+    	 sc.nextLine();
     	int cont= 1;
-        System.out.println("Categorías existentes: ");
+        System.out.println("\nCategorías existentes: ");
         for (Categoria categoria : GestorBBDD.getCategorias()) {
             System.out.println(cont +". "+ categoria.getNombre());
             cont++;
@@ -128,13 +131,16 @@ public class MainTrabajoFinal {
     private static void mostrarProductosCategoria(Categoria categoria) {
         System.out.println("Productos de la categoría '" + categoria.getNombre() + "':");
         ArrayList<Producto> productos = GestorBBDD.productosCategoriaEnBBDD(categoria);
+        int cont=1;
         for (Producto producto : productos) {
-            System.out.println(producto);
+            System.out.println(cont + ". " + producto);
+            cont++;
         }
     }
 
     private static void agregarProductoCategoria() {
-        System.out.println("Categorías disponibles:");
+    	 sc.nextLine();
+    	System.out.println("Categorías disponibles:");
        mostrarCategorias();
         
         System.out.println("Ingrese el número de la categoría:");
@@ -195,13 +201,13 @@ public class MainTrabajoFinal {
         }
     }
 
-    private static void eliminarCategoria() {
-        System.out.println("Categorías disponibles:");
+    private static void eliminarCategoria() { 
+    	System.out.println("Categorías disponibles:");
         mostrarCategorias();
 
         System.out.println("Ingrese el número de la categoría a eliminar:");
         int indiceCategoria = sc.nextInt();
-
+        sc.nextLine();
         if (indiceCategoria >= 1 && indiceCategoria <= GestorBBDD.getCategorias().size()) {
             Categoria categoriaSeleccionada = GestorBBDD.getCategorias().get(indiceCategoria - 1);
             boolean exitoEliminar = GestorBBDD.eliminarCategoriaEnBBDD(categoriaSeleccionada);
@@ -216,7 +222,8 @@ public class MainTrabajoFinal {
     }
 
     private static void editarCategoria() {
-        System.out.println("Categorías disponibles:");
+    	 sc.nextLine();
+    	System.out.println("Categorías disponibles:");
         mostrarCategorias();
 
         System.out.println("Ingrese el número de la categoría a editar:");
@@ -240,18 +247,17 @@ public class MainTrabajoFinal {
     }
 
     private static void eliminarProductoCategoria() {
-        System.out.println("Categorías disponibles:");
         mostrarCategorias();
 
         System.out.println("Ingrese el número de la categoría:");
         int indiceCategoria = sc.nextInt();
-
+        sc.nextLine();
         if (indiceCategoria >= 1 && indiceCategoria <= GestorBBDD.getCategorias().size()) {
             Categoria categoriaSeleccionada = GestorBBDD.getCategorias().get(indiceCategoria - 1);
             mostrarProductosCategoria(categoriaSeleccionada);
             System.out.println("Ingrese el número del producto a eliminar:");
             int indiceProducto = sc.nextInt();
-
+            sc.nextLine();
             if (indiceProducto >= 1 && indiceProducto <= GestorBBDD.productosCategoriaEnBBDD(categoriaSeleccionada).size()) {
                 Producto productoSeleccionado = (Producto) GestorBBDD.productosCategoriaEnBBDD(categoriaSeleccionada).toArray()[indiceProducto - 1];
                 boolean exitoEliminar = GestorBBDD.eliminarRelacionCatPro(categoriaSeleccionada, productoSeleccionado);
@@ -271,9 +277,10 @@ public class MainTrabajoFinal {
     
     
     private static void menuProductos() {
-        int eleccion;
+    	 sc.nextLine();
+    	int eleccion;
         do {
-            System.out.println("Menú productos: \n" +
+            System.out.println("\nMenú productos: \n" +
                     "1. Añadir producto.\n" +
                     "2. Eliminar producto.\n" +
                     "3. Editar producto.\n" +
@@ -323,7 +330,8 @@ public class MainTrabajoFinal {
     }
 
     private static void eliminarProducto() {
-        System.out.println("Productos existentes:");
+    	 sc.nextLine();
+    	System.out.println("Productos existentes:");
         mostrarProductos();
 
         System.out.println("Ingrese el número del producto a eliminar:");
@@ -343,7 +351,6 @@ public class MainTrabajoFinal {
     }
 
     private static void editarProducto() {
-        System.out.println("Productos existentes:");
         mostrarProductos();
 
         System.out.println("Ingrese el número del producto a editar:");
@@ -371,7 +378,8 @@ public class MainTrabajoFinal {
     }
 
     private static void agregarCategoriaAlProducto() {
-        System.out.println("Productos existentes:");
+    	 sc.nextLine();
+    	System.out.println("Productos existentes:");
         mostrarProductos();
 
         System.out.println("Ingrese el número del producto:");
@@ -400,7 +408,8 @@ public class MainTrabajoFinal {
     }
 
     private static void eliminarCategoriaDelProducto() {
-        System.out.println("Productos existentes:");
+    	 sc.nextLine();
+    	System.out.println("Productos existentes:");
         mostrarProductos();
 
         System.out.println("Ingrese el número del producto:");
@@ -430,7 +439,7 @@ public class MainTrabajoFinal {
 
     private static void mostrarProductos() {
         int cont = 1;
-        System.out.println("Productos existentes:");
+        System.out.println("\nProductos existentes:");
         for (Producto producto : GestorBBDD.getProductos()) {
             System.out.println(cont + ". " + producto.getNombre());
             cont++;
@@ -450,13 +459,18 @@ public class MainTrabajoFinal {
 
 
     private static void menuClientes() {
-        int eleccion;
+    	 sc.nextLine();
+    	int eleccion;
         do {
-            System.out.println("Menú clientes: " +
-                    "\n1. Mostrar clientes.\n" +
-                    "2. Añadir cliente.\n" +
-                    "3. Eliminar cliente.\n" +
-                    "0. Volver.\n");
+            System.out.println("\nMenú clientes: " +
+                    "\n1. Mostrar clientes." +
+                    "\n2. Añadir cliente." +
+                    "\n3. Eliminar cliente." +
+                    "\n4. Añadir nota al cliente." +
+                    "\n5. Editar nota del cliente." +
+                    "\n6. Eliminar nota del cliente." +
+                    "\n7. Mostrar facuras." +
+                    "\n0. Volver.\n");
             eleccion = sc.nextInt();
 
             switch (eleccion) {
@@ -471,18 +485,43 @@ public class MainTrabajoFinal {
                 case 3:
                     eliminarCliente();
                     break;
+                case 4:
+                    añadirNotaCliente();
+                    break;
+                case 5:
+                    editarNotaCliente();
+                    break;
+                case 6:
+                	borrarNotaCliente();
+                	break;
+                case 7:
+                	verFacturasCliente();
+                	break;
                 default:
                     break;
             }
         } while (eleccion != 0);
     }
 
+
     private static void mostrarClientes() {
-        System.out.println("Listado de clientes:");
+    	int cont = 1;
+    	System.out.println("Listado de clientes:");
         ArrayList<Cliente> clientes = GestorBBDD.getClientes();
         for (Cliente cliente : clientes) {
-            System.out.println(cliente);
+            System.out.println(cont + ". " + cliente);
+            cont++;
         }
+    }
+    
+    private static void mostrarNotas(Cliente cliente) {
+    	int cont = 1;
+    	System.out.println("Listado de notas:");
+    	ArrayList<Nota> notas = GestorBBDD.notasClientesEnBBDD(cliente);
+    	for (Nota nota : notas) {
+    		System.out.println(cont + ". " + nota);
+    		cont++;
+    	}
     }
 
     private static void agregarCliente() {
@@ -506,6 +545,7 @@ public class MainTrabajoFinal {
     }
 
     private static void eliminarCliente() {
+        sc.nextLine(); // Limpiar el búfer del escáner
         System.out.println("Clientes existentes:");
         mostrarClientes();
         
@@ -525,12 +565,191 @@ public class MainTrabajoFinal {
             System.out.println("¡Índice de cliente inválido!");
         }
     }
+    
+	private static void añadirNotaCliente() {
+	        sc.nextLine(); // Limpiar el búfer del escáner
+	        // Mostrar clientes disponibles
+	        mostrarClientes();
+	
+	     // Solicitar al usuario el número del cliente
+	        System.out.println("Ingrese el número del cliente:");
+	        int numeroCliente = sc.nextInt();
+	        sc.nextLine(); // Consumir el salto de línea restante
 
+	        // Obtener el cliente correspondiente al número ingresado
+	        ArrayList<Cliente> clientes = GestorBBDD.getClientes();
+	        if (numeroCliente >= 1 && numeroCliente <= clientes.size()) {
+	            Cliente clienteElegido = clientes.get(numeroCliente - 1);
+
+	            // Solicitar título al usuario
+	            System.out.println("Ingrese el título de la Nota:");
+	            String titulo = sc.nextLine();
+
+	            // Solicitar descripción al usuario
+	            System.out.println("Ingrese la descripción de la Nota:");
+	            String descripcion = sc.nextLine();
+
+	            Nota nota = new Nota(titulo, descripcion);
+
+	            // Añadir la nota al cliente
+	            clienteElegido.agregarNota(nota);
+	            GestorBBDD.insertarNotaEnBBDD(nota, clienteElegido);
+	            // Actualizar la nota en la base de datos
+	            boolean exitoActualizarNota = GestorBBDD.actualizarNotaEnBBDD(nota, clienteElegido);
+	            if (exitoActualizarNota) {
+	                System.out.println("Nota añadida correctamente al cliente.");
+	            } else {
+	                System.out.println("Error al añadir la nota al cliente en la base de datos.");
+	            }
+	        } else {
+	            System.out.println("¡Número de cliente inválido!");
+	        }
+	    }
+
+    private static void borrarNotaCliente() {
+        sc.nextLine(); // Limpiar el búfer del escáner
+        // Mostrar clientes disponibles
+        mostrarClientes();
+
+        // Solicitar al usuario el número del cliente
+        System.out.println("Ingrese el número del cliente:");
+        int numeroCliente = sc.nextInt();
+
+        // Obtener el cliente correspondiente al número ingresado
+        ArrayList<Cliente> clientes = GestorBBDD.getClientes();
+        if (numeroCliente >= 1 && numeroCliente <= clientes.size()) {
+            Cliente clienteElegido = clientes.get(numeroCliente - 1);
+
+         // Mostrar las notas del cliente
+            mostrarNotas(clienteElegido);
+
+            // Solicitar al usuario el número de la nota a editar
+            System.out.println("Ingrese el número de la nota que desea borrar:");
+            int numeroNota = sc.nextInt();
+
+            // Obtener la nota correspondiente al número ingresado
+            Nota notaSeleccionada = null;
+            int count = 0;
+            for (Nota nota : GestorBBDD.notasClientesEnBBDD(clienteElegido)) {
+                count++;
+                if (count == numeroNota) {
+                    notaSeleccionada = nota;
+                    break;
+                }
+            }
+
+            // Borrar la nota del cliente
+            boolean exitoBorrarNota = GestorBBDD.eliminarNotaEnBBDD(notaSeleccionada);
+            if (exitoBorrarNota) {
+                
+                    System.out.println("Nota borrada correctamente del cliente.");
+                
+            } else {
+                System.out.println("¡Número de nota inválido!");
+            }
+        } else {
+            System.out.println("¡Número de cliente inválido!");
+        }
+    }
+
+    private static void editarNotaCliente() {
+        sc.nextLine(); // Limpiar el búfer del escáner
+        // Mostrar clientes disponibles
+        mostrarClientes();
+
+        // Solicitar al usuario el número del cliente
+        System.out.println("Ingrese el número del cliente:");
+        int numeroCliente = sc.nextInt();
+
+        // Obtener el cliente correspondiente al número ingresado
+        ArrayList<Cliente> clientes = GestorBBDD.getClientes();
+        if (numeroCliente >= 1 && numeroCliente <= clientes.size()) {
+            Cliente clienteElegido = clientes.get(numeroCliente - 1);
+
+         // Mostrar las notas del cliente
+            mostrarNotas(clienteElegido);
+
+            // Solicitar al usuario el número de la nota a editar
+            System.out.println("Ingrese el número de la nota que desea editar:");
+            int numeroNota = sc.nextInt();
+            sc.nextLine(); // Consumir el carácter de nueva línea
+            // Obtener la nota correspondiente al número ingresado
+            Nota notaSeleccionada = null;
+            int count = 0;
+            for (Nota nota : GestorBBDD.notasClientesEnBBDD(clienteElegido)) {
+                count++;
+                if (count == numeroNota) {
+                    notaSeleccionada = nota;
+                    break;
+                }
+            }
+
+            // Verificar si la nota seleccionada es válida
+            if (notaSeleccionada != null) {
+                
+            	// Solicitar titulo al usuario
+            	System.out.println("Ingrese el titulo de la Nota:");
+            	String titulo = sc.nextLine();
+            
+            	// Solicitar descripcion al usuario
+            	System.out.println("Ingrese la descripcion de la Nota:");
+            	String descripcion = sc.nextLine();
+            	
+                // Actualizar el contenido de la nota
+                notaSeleccionada.setTitulo(titulo);
+                notaSeleccionada.setDescripcion(descripcion);
+
+                // Actualizar la nota en la base de datos
+                boolean exitoActualizarNota = GestorBBDD.actualizarNotaEnBBDD(notaSeleccionada, clienteElegido);
+                if (exitoActualizarNota) {
+                    System.out.println("Nota actualizada correctamente.");
+                } else {
+                    System.out.println("Error al actualizar la nota en la base de datos.");
+                }
+            } else {
+                System.out.println("¡Número de nota inválido!");
+            }
+        }
+    }
+
+    private static void verFacturasCliente() {
+        sc.nextLine(); // Limpiar el búfer del escáner
+        // Mostrar clientes disponibles
+        mostrarClientes();
+
+        // Solicitar al usuario el número del cliente
+        System.out.println("Ingrese el número del cliente:");
+        int numeroCliente = sc.nextInt();
+
+        // Obtener el cliente correspondiente al número ingresado
+        ArrayList<Cliente> clientes = GestorBBDD.getClientes();
+        if (numeroCliente >= 1 && numeroCliente <= clientes.size()) {
+            Cliente clienteElegido = clientes.get(numeroCliente - 1);
+
+            // Obtener las facturas del cliente
+            ArrayList<Factura> facturas = GestorBBDD.facturasClientesEnBBDD(clienteElegido);
+
+            // Mostrar las facturas del cliente
+            if (facturas.isEmpty()) {
+                System.out.println("El cliente no tiene facturas.");
+            } else {
+            	int cont = 1;
+                System.out.println("Facturas del cliente:");
+                for (Factura factura : facturas) {
+                	
+                    System.out.println(cont + ". " + factura);
+                    cont++;
+                }
+            }
+        } else {
+            System.out.println("¡Número de cliente inválido!");
+        }
+    }
 
     private static void visualizar() {
         int eleccion;
         do {
-            System.out.println("Introduzca la opción que desea realizar: " +
+            System.out.println("\nIntroduzca la opción que desea realizar: " +
                     "\n1. Mostrar productos.\n" +
                     "2. Mostrar categorías.\n" +
                     "0. Volver al menú principal.\n");
@@ -551,85 +770,114 @@ public class MainTrabajoFinal {
         } while (eleccion != 0);
     }
 
-    private static void crearFactura() {
-    	boolean continuar = true;
-    	while (continuar) {
-    	// Mostrar clientes disponibles
-        mostrarClientes();
-
-        // Solicitar al usuario el número del cliente
-        System.out.println("Ingrese el número del cliente:");
-        int numeroCliente = sc.nextInt();
-
-        // Obtener el cliente correspondiente al número ingresado
-        ArrayList<Cliente> clientes = GestorBBDD.getClientes();
-        if (numeroCliente >= 1 && numeroCliente <= clientes.size()) {
-            Cliente clienteElegido = clientes.get(numeroCliente - 1);
-
-            // Crear una nueva factura con el cliente seleccionado
-            Factura nuevaFactura = new Factura();
-            nuevaFactura.setCliente(clienteElegido);
-
-
     
-    while (continuar) {
-        // Solicitar al usuario que elija un producto
-        mostrarProductos();
-        System.out.println("Ingrese el número del producto que desea agregar a la factura:");
-        int indiceProducto = sc.nextInt();
+    private static void crearFactura() {
+        sc.nextLine(); // Limpiar el búfer del escáner
+        boolean continuar = true;
+    	while (continuar) {
+    		    // Mostrar clientes disponibles
+    		    mostrarClientes();
 
-        // Verificar si el índice de producto es válido
-        if (indiceProducto >= 1 && indiceProducto <= GestorBBDD.getProductos().size()) {
-            Producto productoElegido = GestorBBDD.getProductos().get(indiceProducto - 1);
+    		    // Solicitar al usuario el número del cliente
+    		    System.out.println("Ingrese el número del cliente:");
+    		    int numeroCliente = sc.nextInt();
 
-            // Solicitar la cantidad del producto
-            System.out.println("Ingrese la cantidad del producto:");
-            int cantidad = sc.nextInt();
+    		    // Obtener el cliente correspondiente al número ingresado
+    		    ArrayList<Cliente> clientes = GestorBBDD.getClientes();
+    		    if (numeroCliente >= 1 && numeroCliente <= clientes.size()) {
+    		        Cliente clienteElegido = clientes.get(numeroCliente - 1);
 
-            // Crear una nueva línea con el producto y la cantidad
-            Linea nuevaLinea = new Linea(cantidad, productoElegido);
-            nuevaLinea.calcularSub_Total(productoElegido);
+    		        // Crear una nueva factura con el cliente seleccionado
+    		        Factura nuevaFactura = new Factura();
+    		        nuevaFactura.setCliente(clienteElegido);
+    		        		// Insertar la línea en la base de datos utilizando la ID de la factura
+    		                int idFacturaGenerado = GestorBBDD.insertarFacturaEnBBDD(nuevaFactura);
+    		        while (continuar) {
+    		            // Solicitar al usuario que elija un producto
+    		            mostrarProductos();
+    		            System.out.println("Ingrese el número del producto que desea agregar a la factura:");
+    		            int indiceProducto = sc.nextInt();
 
-            // Insertar la línea en la base de datos utilizando la ID de la factura
-            int idFacturaGenerado = GestorBBDD.insertarFacturaEnBBDD(nuevaFactura);
-            if (idFacturaGenerado != -1) {
-                boolean exitoInsertarLinea = GestorBBDD.insertarLineaEnBBDD(nuevaLinea, idFacturaGenerado);
-                if (!exitoInsertarLinea) {
-                    System.out.println("Error al insertar la línea en la base de datos.");
-                }
-            } else {
-                System.out.println("Error al insertar la factura en la base de datos.");
-            }
+    		            // Verificar si el índice de producto es válido
+    		            if (indiceProducto >= 1 && indiceProducto <= GestorBBDD.getProductos().size()) {
+    		                Producto productoElegido = GestorBBDD.getProductos().get(indiceProducto - 1);
 
-            // Agregar la línea a la factura
-            nuevaFactura.agregarLinea(nuevaLinea);
+    		                // Solicitar la cantidad del producto
+    		                System.out.println("Ingrese la cantidad del producto:");
+    		                int cantidad = sc.nextInt();
 
-            // Solicitar al usuario si desea continuar agregando productos
-            System.out.println("¿Desea agregar otro producto? (Sí/No)");
-            String respuesta = sc.next();
-            if (respuesta.equalsIgnoreCase("No")) {
-                continuar = false;
-            }
-        } else {
-            System.out.println("¡Índice de producto inválido!");
-        }
-    }
-    continuar = true;
-    // Calcular el total de la factura
-    nuevaFactura.calcularTotal();
+    		                // Crear una nueva línea con el producto y la cantidad
+    		                Linea nuevaLinea = new Linea(cantidad, productoElegido);
+    		                nuevaLinea.calcularSub_Total(productoElegido);
 
-    // Actualizar la factura en la base de datos
-    boolean exitoActualizarFactura = GestorBBDD.actualizarFacturaEnBBDD(nuevaFactura);
-    if (!exitoActualizarFactura) {
-        System.out.println("Error al actualizar la factura en la base de datos.");
-    }
+    		                
+    		                if (idFacturaGenerado != -1) {
+    		                    boolean exitoInsertarLinea = GestorBBDD.insertarLineaEnBBDD(nuevaLinea, idFacturaGenerado);
+    		                    if (!exitoInsertarLinea) {
+    		                        System.out.println("Error al insertar la línea en la base de datos.");
+    		                    }
+    		                } else {
+    		                    System.out.println("Error al insertar la factura en la base de datos.");
+    		                }
 
-    // Mostrar el total de la factura
-    System.out.println("El total de la factura es: " + nuevaFactura.getTotal());
-}else {
-    System.out.println("¡Número de cliente inválido!");
-}
-        System.out.println("¿Desea hacer otra factura? (Sí/No)");
+    		                // Agregar la línea a la factura
+    		                nuevaFactura.agregarLinea(nuevaLinea);
+
+    		                // Solicitar al usuario si desea continuar agregando productos
+    		                System.out.println("¿Desea agregar otro producto? (Sí/No)");
+    		                String respuesta = sc.next();
+    		                if (respuesta.equalsIgnoreCase("No")) {
+    		                    continuar = false;
+    		                }
+    		            } else {
+    		                System.out.println("¡Índice de producto inválido!");
+    		            }
+    		        }
+
+    		        // Calcular el total de la factura
+    		        nuevaFactura.calcularTotal();
+
+    		        // Actualizar la factura en la base de datos
+    		        boolean exitoActualizarFactura = GestorBBDD.actualizarFacturaEnBBDD(nuevaFactura);
+    		        if (!exitoActualizarFactura) {
+    		            System.out.println("Error al actualizar la factura en la base de datos.");
+    		        }
+
+    		        // Mostrar los datos del cliente, la factura y las líneas
+    		        System.out.println("Datos del Cliente:");
+    		        System.out.println(clienteElegido.toString());
+
+    		        System.out.println("Datos de la Factura:");
+    		        System.out.println(nuevaFactura.toString());
+    		        
+    		        ArrayList<Linea> lineas = GestorBBDD.getLineasDeFactura(nuevaFactura);
+    		        if (lineas.isEmpty()) {
+    		            System.out.println("No se encontraron líneas para la factura.");
+    		        } else {
+    		            System.out.println("Líneas de la factura:");
+    		            for (Linea linea : lineas) {
+    		            	System.out.println("Producto: " + linea.getProducto().getNombre());
+    		                System.out.println("Cantidad: " + linea.getCantidad());
+    		                System.out.println("Subtotal: " + linea.getSub_total());
+    		                System.out.println("----------------------------------");
+    		            }
+    		        }
+    		        
+    		        System.out.println("El total de la factura es: " + nuevaFactura.getTotal());
+    		        System.out.println("Esta pagado? (Si/No)");
+    		        String respuesta = sc.next();
+    		        if (respuesta.equalsIgnoreCase("Si")) {
+    		        	nuevaFactura.setPagado(true);
+    		        }
+    		        
+    		        GestorBBDD.actualizarFacturaEnBBDD(nuevaFactura);
+    		        clienteElegido.agregarFactura(nuevaFactura);
+    		        
+    		    } else {
+    		        System.out.println("¡Número de cliente inválido!");
+    		    }
+
+        System.out.println("¿Desea hacer otra factura? (Si/No)");
         String respuesta = sc.next();
         if (respuesta.equalsIgnoreCase("No")) {
             continuar = false;

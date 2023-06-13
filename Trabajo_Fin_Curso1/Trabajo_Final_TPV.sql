@@ -22,7 +22,7 @@ CREATE TABLE `TrabajoFinal_TPV`.`Cliente` (
   CREATE TABLE `TrabajoFinal_TPV`.`Nota` (
   `ID_Nota` INT NOT NULL AUTO_INCREMENT,
   `Titulo` VARCHAR(30) NOT NULL,
-  `Fecha` DATE NOT NULL,
+  `Fecha` DATETIME NOT NULL,
   `Descripcion` VARCHAR(255) NOT NULL,
   `ID_Cliente` INT NOT NULL,
   PRIMARY KEY (`ID_Nota`),
@@ -32,7 +32,7 @@ CREATE TABLE `TrabajoFinal_TPV`.`Cliente` (
 
 CREATE TABLE `TrabajoFinal_TPV`.`Factura` (
   `ID_Factura` INT NOT NULL AUTO_INCREMENT,
-  `Fecha` DATE NOT NULL,
+  `Fecha` DATETIME NOT NULL,
   `Pagado` boolean default false,
   `Total` Double,
   `ID_Cliente` INT NOT NULL,

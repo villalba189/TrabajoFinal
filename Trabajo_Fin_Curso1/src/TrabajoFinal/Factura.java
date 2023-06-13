@@ -1,14 +1,14 @@
 package TrabajoFinal;
 
+import java.sql.Timestamp;
 import java.util.*;
 
-public class Factura {
-	Calendar calendar = Calendar.getInstance();
-	Date fechaActual = calendar.getTime();
+public class Factura implements Comparable<Factura>{
+	Timestamp fechaActual = new Timestamp(System.currentTimeMillis());
 	
 	private int id_compra;
 	private Cliente cliente;
-	private Date fecha = fechaActual;
+	private Timestamp fecha = fechaActual;
 	private Boolean pagado = false;
 	private double total;
 	private HashSet<Linea> lineas;
@@ -18,7 +18,7 @@ public class Factura {
         this.lineas = new HashSet<>();
     }
 
-	public Factura(int id_compra, Cliente cliente, Date fecha, Boolean pagado, double total) {
+	public Factura(int id_compra, Cliente cliente, Timestamp fecha, Boolean pagado, double total) {
 		super();
 		this.id_compra = id_compra;
 		this.cliente = cliente;
@@ -44,11 +44,11 @@ public class Factura {
 		this.cliente = cliente;
 	}
 
-	public Date getFecha() {
+	public Timestamp getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(Date fecha) {
+	public void setFecha(Timestamp fecha) {
 		this.fecha = fecha;
 	}
 
@@ -92,6 +92,11 @@ public class Factura {
 		return "Factura [id_compra=" + id_compra + ", cliente=" + cliente + ", fecha=" + fecha + ", pagado=" + pagado
 				+ ", total=" + total + "]";
 	}
+	
+	public int compareTo(Factura otraFactura) {
+        // Comparar por fecha, de más recientes a más antiguas
+        return otraFactura.getFecha().compareTo(this.getFecha());
+    }
 
 	public void agregarLinea(Linea linea) {
 				lineas.add(linea);

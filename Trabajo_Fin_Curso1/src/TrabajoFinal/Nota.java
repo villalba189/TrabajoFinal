@@ -1,12 +1,15 @@
 package TrabajoFinal;
 
+import java.sql.Timestamp;
 import java.time.*;
 import java.util.*;
 
-public class Nota {
+public class Nota implements Comparable<Nota>{
+	Timestamp fechaActual = new Timestamp(System.currentTimeMillis());
+	
 	private int id_nota;
 	private String titulo;
-	private Date fecha;
+	private Timestamp fecha = fechaActual;
 	private String descripcion;
 
 	public Nota() {
@@ -17,15 +20,21 @@ public class Nota {
 	public Nota(Nota nota) {
 		this.id_nota = nota.id_nota;
 		this.titulo = nota.titulo;
-		this.fecha = new Date(nota.fecha.getTime());
+		this.fecha = nota.fecha;
 		this.descripcion = nota.descripcion;
 	}
 
-	public Nota(int id_nota, String titulo, Date fecha, String descripcion) {
+	public Nota(int id_nota, String titulo, Timestamp fecha, String descripcion) {
 		super();
 		this.id_nota = id_nota;
 		this.titulo = titulo;
 		this.fecha = fecha;
+		this.descripcion = descripcion;
+	}
+
+	public Nota(String titulo, String descripcion) {
+		this.titulo = titulo;
+		this.fecha = fechaActual;
 		this.descripcion = descripcion;
 	}
 
@@ -45,11 +54,11 @@ public class Nota {
 		this.titulo = titulo;
 	}
 
-	public Date getFecha() {
+	public Timestamp getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(Date fecha) {
+	public void setFecha(Timestamp fecha) {
 		this.fecha = fecha;
 	}
 
@@ -85,7 +94,13 @@ public class Nota {
 		return "Nota [id_nota=" + id_nota + ", Titulo=" + titulo + ", Fecha=" + fecha + ", Descripcion=" + descripcion
 				+ "]";
 	}
+	
+	public int compareTo(Nota otraNota) {
+        // Comparar por fecha, de más modernas a más antiguas
+        return otraNota.getFecha().compareTo(this.getFecha());
+    }
 
+	
 	public int calcularAntiguedadEnDias() {
 		LocalDate fechaActual = LocalDate.now();
 		LocalDate fechaNota = convertirDateALocalDate(fecha);
