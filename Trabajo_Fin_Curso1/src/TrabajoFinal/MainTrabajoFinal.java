@@ -39,7 +39,7 @@ public class MainTrabajoFinal {
     }
 
     
-    
+    //--------------------------Adminsitrar-----------------------------------------
     private static void administrar() {
     	 sc.nextLine();
     	int eleccion;
@@ -69,6 +69,7 @@ public class MainTrabajoFinal {
         } while (eleccion != 0);
     }
 
+  //--------------------------Menu Categoria-----------------------------------------
     
     private static void menuCategorias() {
     	 sc.nextLine();
@@ -108,6 +109,7 @@ public class MainTrabajoFinal {
         } while (eleccion != 0);
     }
 
+    
     private static void mostrarCategorias() {
     	 sc.nextLine();
     	int cont= 1;
@@ -272,7 +274,8 @@ public class MainTrabajoFinal {
         }
     }
     
-    
+    //--------------------------Menu Productos-----------------------------------------
+
     
     private static void menuProductos() {
     	 sc.nextLine();
@@ -311,6 +314,7 @@ public class MainTrabajoFinal {
         } while (eleccion != 0);
     }
 
+    
     private static void agregarProducto() {
         sc.nextLine(); // Limpiar el búfer del escáner
         System.out.println("Ingrese el nombre del producto:");
@@ -454,6 +458,7 @@ public class MainTrabajoFinal {
         }
     }
 
+    //--------------------------Menu Clientes-----------------------------------------
 
 
     private static void menuClientes() {
@@ -744,6 +749,8 @@ public class MainTrabajoFinal {
         }
     }
 
+    //--------------------------Visualizar-----------------------------------------
+
     private static void visualizar() {
         int eleccion;
         do {
@@ -768,7 +775,8 @@ public class MainTrabajoFinal {
         } while (eleccion != 0);
     }
 
-    
+    //--------------------------Crear Factura-----------------------------------------
+
     private static void crearFactura() {
         sc.nextLine(); // Limpiar el búfer del escáner
         boolean continuar = true;
